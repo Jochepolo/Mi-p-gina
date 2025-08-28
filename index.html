@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>💖 Nuestra Historia | Feliz Cumpleaños</title>
+  <style>
+    :root{
+      --fucsia:#ff2d8a; /* color favorito */
+      --fucsia-osc:#d11f6e;
+      --claro:#fff5fa;
+      --tinta:#2a1b24;
+      --card:#ffffff;
+      --glow: 0 10px 30px rgba(255,45,138,.45);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 20% 0%, #ffd1e6 0%, #ffe3f1 40%, #fff 85%) fixed;
+      color:var(--tinta);
+      overflow-x:hidden;
+    }
+
+    /* ===== Fondo dinámico de corazones ===== */
+    .bg-hearts{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0 }
+    .bg-hearts .heart{ position:absolute; top:-10vh; font-size:22px; opacity:.85; animation: fall linear forwards; filter: drop-shadow(0 6px 10px rgba(0,0,0,.15)); }
+    @keyframes fall{ to{ transform:translateY(120vh) rotate(360deg); opacity:.95 } }
+    .bg-hearts .tiny{ font-size:14px; opacity:.6 }
+    .bg-hearts .big{ font-size:34px }
+
+    /* ===== Login ===== */
+    .screen{ min-height:100vh; display:grid; place-items:center; padding:24px; position:relative; z-index:1 }
+    .login{
+      width:min(560px,92vw); background:var(--card); border-radius:26px; padding:32px 28px; box-shadow:var(--glow);
+      text-align:center; transform: translateY(0); animation: raise .8s ease both; backdrop-filter: blur(6px);
+    }
+    @keyframes raise{ from{ opacity:0; transform: translateY(20px)} to{ opacity:1; transform: translateY(0)} }
+
+    .lock-wrap{ position:relative; width:210px; height:210px; margin:0 auto 18px; }
+    .pulse{ position:absolute; inset:-18px; border-radius:50%; background:radial-gradient(circle at 50% 50%, rgba(255,45,138,.18), transparent 60%); filter: blur(10px); animation: pulse 2.8s ease-in-out infinite; }
+    @keyframes pulse{ 50%{ transform: scale(1.06) } }
+    svg{ display:block; width:100%; height:100% }
+    .shackle{ stroke:var(--fucsia); stroke-width:14; fill:none; filter: drop-shadow(0 8px 14px rgba(209,31,110,.35)); }
+    .heart-core{ fill:var(--fucsia); filter: drop-shadow(0 10px 22px rgba(255,45,138,.45)); }
+    .keyhole{ fill:#fff; opacity:.96 }
+
+    .title{ font-size:clamp(20px,3vw,28px); margin:8px 0 16px; color:var(--fucsia) }
+    .hint{ font-size:14px; opacity:.8; margin-bottom:16px }
+
+    .passbox{ display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap }
+    input[type="password"]{
+      letter-spacing:.35em; padding:14px 16px; font-weight:700; font-size:18px; text-align:center; border-radius:14px; outline:none;
+      border:2px solid var(--fucsia); color:var(--tinta); background:#fff; width:180px;
+    }
+    button{ cursor:pointer; border:none; border-radius:14px; padding:12px 18px; font-weight:700; background:var(--fucsia); color:white; box-shadow:var(--glow); transition: transform .06s ease, background .25s ease }
+    button:hover{ background:var(--fucsia-osc) }
+    button:active{ transform: translateY(1px) }
+    .wrong{ animation: shake .45s ease }
+    @keyframes shake{ 10%,90%{transform:translateX(-2px)} 20%,80%{transform:translateX(4px)} 30%,50%,70%{transform:translateX(-8px)} 40%,60%{transform:translateX(8px)} }
+
+    /* ===== Contenido ===== */
+    .app{ display:none }
+    .app.show{ display:block }
+    header.hero{ padding:86px 22px 56px; text-align:center; background:
+      radial-gradient(1000px 400px at 50% -10%, rgba(255,45,138,.18), transparent 60%),
+      linear-gradient(180deg, rgba(255,45,138,.06), transparent 60%);
+      position:relative; z-index:1
+    }
+    .hero h1{ font-size: clamp(28px, 5vw, 56px); margin: 12px 0 10px; color:var(--fucsia) }
+    .hero p{ font-size: clamp(16px, 2.4vw, 20px); opacity:.9; max-width:900px; margin:0 auto }
+
+    .ribbon{ display:inline-flex; gap:8px; align-items:center; background:white; border:2px dashed var(--fucsia); color:var(--fucsia-osc);
+      padding:10px 14px; border-radius:999px; margin-top:12px; box-shadow:0 8px 24px rgba(255,45,138,.15) }
+
+    .container{ max-width:1100px; margin:0 auto; padding: 30px 18px }
+
+    .grid{ display:grid; gap:18px; grid-template-columns: repeat(12, 1fr) }
+    .card{ background:var(--card); border-radius:22px; padding:18px; box-shadow:var(--glow); position:relative; overflow:hidden }
+    .card h3{ margin:6px 0 12px; color:var(--fucsia) }
+
+    /* Galería */
+    .gallery{ grid-column: span 12 }
+    .gallery-grid{ display:grid; gap:12px; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) }
+    .gallery-grid img{ width:100%; height:200px; object-fit:cover; border-radius:16px; transition: transform .25s ease }
+    .gallery-grid img:hover{ transform: scale(1.03) }
+
+    /* Videos */
+    .videos{ grid-column: span 12 }
+    .videos .wrap{ display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)) }
+    video{ width:100%; border-radius:16px; box-shadow:0 10px 24px rgba(0,0,0,.15) }
+
+    /* Audios */
+    .audios{ grid-column: span 12; display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)) }
+    audio{ width:100% }
+
+    /* Carta larga */
+    .letter{ grid-column: span 12; line-height:1.75; font-size:18px }
+    .letter p{ margin:12px 0 }
+
+    /* Stitch & Lilo */
+    .stitch{ grid-column: span 12; display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); align-items:center }
+    .stitch .big-emoji{ font-size: 90px; text-align:center }
+    .badge{ display:inline-flex; align-items:center; gap:10px; background:#fff; border:1px solid #ffd1e6; border-radius:14px; padding:10px 12px }
+
+    /* Footer */
+    footer{ text-align:center; padding:50px 20px; opacity:.75 }
+
+    /* botones útiles */
+    .toolbar{ position:sticky; top:10px; display:flex; gap:10px; justify-content:flex-end; margin-bottom:12px; z-index:2 }
+    .btn-ghost{ background:white; color:var(--fucsia); border:2px solid var(--fucsia); box-shadow:none }
+
+    /* Aparición al hacer scroll */
+    .reveal{ opacity:0; transform: translateY(12px); transition: .6s ease }
+    .reveal.show{ opacity:1; transform:none }
+
+    /* Responsivo extra */
+    @media (min-width:840px){
+      .audios{ grid-column: span 6 }
+      .letter{ grid-column: span 6 }
+    }
+  </style>
+</head>
+<body>
+  <!-- Fondo dinámico de corazones -->
+  <div class="bg-hearts" id="bgHearts" aria-hidden="true"></div>
+
+  <!-- Pantalla de Login con corazón-candado -->
+  <section class="screen" id="loginScreen">
+    <div class="login" id="loginBox">
+      <div class="lock-wrap">
+        <div class="pulse"></div>
+        <svg viewBox="0 0 220 220" aria-label="Candado en forma de corazón">
+          <!-- Arco (shackle) -->
+          <path class="shackle" d="M65 85 C65 40, 155 40, 155 85" stroke-linecap="round"/>
+          <!-- Corazón -->
+          <path class="heart-core" d="M110 180 C80 150, 40 130, 56 95 C70 66, 104 72, 110 95 C116 72, 150 66, 164 95 C180 130, 140 150, 110 180 Z"/>
+          <!-- Cerradura -->
+          <path class="keyhole" d="M110 135 a12 12 0 1 0 0.1 0 v18 h-12 v-18 z"/>
+        </svg>
+      </div>
+      <h2 class="title">Bienvenida a nuestro rincón de el amor  💘</h2>
+      <p class="hint">Pista: fecha especial (4 dígitos).</p>
+      <div class="passbox">
+        <input id="pass" type="password" inputmode="numeric" maxlength="4" placeholder="••••" aria-label="Ingresa la clave"/>
+        <button id="enterBtn">Entrar</button>
+      </div>
+      <p class="hint" style="margin-top:10px">eres el amor: de mi vida  🏝️💫</p>
+    </div>
+  </section>
+
+  <!-- Aplicación (contenido) -->
+  <main class="app" id="app">
+    <header class="hero">
+      <span class="ribbon">🔒 Desbloqueado con <strong style="margin-left:4px">2906</strong> — Nuestro amor es la llave</span>
+      <h1>Feliz Cumpleaños, Mi Amor</h1>
+      <p>Hoy celebro tu vida, nuestra historia y el futuro que soñamos. Preparé este lugar para recordarte —con música, videos, fotos y palabras— lo inmenso que es mi amor por ti.</p>
+    </header>
+
+    <div class="container">
+      <div class="toolbar">
+        <button class="btn-ghost" id="playAll">▶️ Reproducir todo</button>
+        <button class="btn-ghost" id="pauseAll">⏸️ Pausar todo</button>
+      </div>
+
+      <section class="grid">
+        <!-- Audios (2) -->
+        <article class="card audios reveal">
+          <h3>🎵 Nuestras canciones</h3>
+          <audio id="audio1" controls>
+            <source src="audio1.mp3" type="audio/mpeg" />
+          </audio>
+          <audio id="audio2" controls>
+            <source src="audio2.mp3" type="audio/mpeg" />
+          </audio>
+        </article>
+
+        <!-- Carta (1000+ palabras) -->
+        <article class="card letter reveal">
+          <h3>📜 Carta para ti</h3>
+          <div id="longText">
+            <p>Amor mío, hoy quiero detener el tiempo para hablarte con calma, con el corazón abierto y con la certeza de que cada palabra que escribo está cosida a la memoria de lo que somos. Desde el primer día supe que había algo irrepetible en ti: una luz traviesa en los ojos, una risa que se colaba entre los ruidos del mundo y los volvía música, una forma de mirar que parecía comprender sin preguntar. No sé si el destino existe como lo pintan en los libros, pero sí sé que hay encuentros que cambian el rumbo, que nos enseñan a nombrar lo que antes era solo presentimiento; tú fuiste ese encuentro, el que convirtió mis pasos en camino.</p>
+            <p>Recuerdo nuestras primeras conversaciones, el titubeo dulce de no saber si decirlo todo o guardar un poco para más tarde, como quien quiere que un atardecer se prolongue. Descubrí que contigo se puede hablar de lo serio sin perder la sonrisa, y de lo cotidiano sin que deje de tener brillo. A veces me pregunto en qué momento mi día empezó a contar el tiempo con tus mensajes, mis planes con tus horarios y mis ganas con tu presencia. Lo cierto es que desde entonces aprendí un idioma nuevo: la gramática de tus gestos, la semántica de tus silencios, la sintaxis cariñosa con la que ordenas el caos cuando todo parece demasiado.</p>
+            <p>Si me pidieran definir el amor, no hablaría de promesas perfectas, hablaría de ese cotidiano que hemos levantado con paciencia: hacer mercado tomados de la mano, reírnos de chistes malos que solo nosotros entendemos, cuidarnos cuando el ánimo baja, celebrar los pequeños logros, preparar café con la complicidad de quien conoce los gustos del otro. El amor que siento por ti no es un fuego que se apaga con el viento, es un hogar al que siempre se vuelve; no es un estruendo momentáneo, es una melodía que se repite y cada vez suena más honda. Y en ese hogar compartimos también lo lúdico: los guiños de Lilo & Stitch que nos recuerdan que la familia se elige y se cuida, que la lealtad tiene ojos azules y una sonrisa imperdonablemente tierna.</p>
+            <p>Me conmueve la fuerza con la que enfrentas los días difíciles, esa terquedad hermosa con la que decides cuidar de los demás aunque a veces falten fuerzas para cuidarte a ti. Eres fucsia en un mundo gris, eres chispa en el invierno, eres abrazo en la tormenta. A tu lado la palabra futuro ya no asusta, se vuelve promesa; el pasado deja de ser peso, se convierte en raíz; y el presente, incluso con su torpeza y su prisa, encuentra en ti un latido que lo ordena. Hay instantes que guardo como tesoros: la primera vez que bailamos sin música, la tarde en que el cielo parecía un dulce de algodón, ela vez que hablando de noche en la muralla bautizamos una estrella y siempre que la veamos recoderiamos ese dia con amor , las noches en que el sueño no llegaba pero la conversación nos abrigaba.</p>
+            <p>Quiero agradecerte por lo que eres y por lo que haces que yo sea. Contigo descubrí versiones mías que desconocía: la paciencia para escuchar mejor, la alegría simple de madrugar para prepararte una sorpresa, la disciplina para construir metas comunes, el coraje para decir “lo siento” cuando me equivoco y el orgullo sereno de decir “lo logramos” cuando juntos vencemos un reto. No eres una idea del amor: eres su cuerpo, su risa, su modo cotidiano de darse. He aprendido que amar también es aprender: a pedir perdón a tiempo, a no dar por hecho la presencia del otro, a recordar que la ternura es un trabajo diario que se riega como se riega una planta, con cuidado, con atención y con entusiasmo.</p>
+            <p>Si cierro los ojos y pienso en el mañana, te veo en escenas que me parecen inevitables: despertándonos con un beso, escogiendo películas aunque siempre terminemos volviendo a nuestras favoritas, ordenando fotos que, como esta galería, nos verán crecer. Te veo aplaudiendo mis locuras tecnológicas, riéndote cuando algo no compila pero insistiendo conmigo hasta que por fin funciona. Te veo con tu color fucsia destellando en detalles por toda la casa, en flores, en tazas, en cuadernos; te veo bailando en la cocina con Stitch haciendo de DJ imaginario, y a Lilo recordándonos que el sentido de hogar ohana es lo que construimos cada día.</p>
+            <p>Hoy, en tu cumpleaños, quiero desearte salud para tus sueños, calma para tus batallas y asombro para tus descubrimientos. Quiero prometerte que seguiré apostando por nosotros incluso cuando el camino exija más de lo que esperábamos; que seré compañero en las horas de luz y en las de sombra; que cuidaré lo pequeño y respetaré lo grande; que sabré callar cuando haga falta y hablar cuando sea necesario; que estaré atento a tus señales y celebraré con orgullo tus conquistas. Mi compromiso no cabe en un par de frases: es una constelación de gestos, una arquitectura de tiempo compartido, un cuaderno de planes con margen para la improvisación.</p>
+            <p>Hay palabras que aún no inventan para decir exactamente lo que siento, pero mientras llegan, te dejo estas: gracias por elegir quedarte, por creer en lo que somos, por enseñarme cada día que el amor no es un accidente sino una decisión alegre. Gracias por iluminar mis días con tu color fucsia, por enseñarme a mirar con ternura incluso cuando el mundo no invita a hacerlo, por recordarme con tu risa que la vida merece ser bailada. Gracias por tus manos, que hablan incluso cuando el ruido intenta distraernos; por tus ojos, que me devuelven una versión mía que vale la pena cuidar; por tus silencios, que lejos de asustar, me invitan a acercarme.</p>
+            <p>Si alguna vez la duda se asoma, miremos atrás: no para quedarnos en lo que ya pasó, sino para recordar que hemos sido capaces, que hemos crecido, que aprendimos a pedir ayuda, a darnos espacio y a volver con ganas. Miraremos también hacia adelante, no para vivir en un futuro hipotético, sino para mantener encendida la chispa de los proyectos: viajes por descubrir, recetas por inventar, canciones por cantar en el carro, fotografías por imprimir, puestas de sol por coleccionar. Y miraremos este presente con gratitud: porque hoy estás cumpliendo años, porque hoy celebramos tu vida, porque hoy mi mayor deseo es que te sientas amada, acompañada y orgullosa de ti.</p>
+            <p>Quisiera terminar recordándote algo que a veces olvidamos: mereces todo lo bueno que te pasa, y también mereces descanso cuando te cansas. Mereces abrazos largos, rutas sencillas, mañanas sin prisa. Mereces proyectos que te enciendan los ojos y personas que sepan estar a la altura de tu luz. Yo quiero ser, cada día, una de esas personas: la que escucha, la que aprende, la que te sostiene cuando hace falta y la que celebra siempre. Quiero seguir inventando contigo tradiciones nuevas, como esta página que hoy te regalo, que fue hecha con paciencia, con cariño y con la ilusión de sorprenderte. Ojalá al recorrerla sientas que en cada detalle está mi corazón, ese que late con forma de candado porque guarda lo más valioso: tú.</p>
+            <p>Feliz cumpleaños, amor mío. Que este año te encuentre radiante y te regale el tipo de magia que se queda. Te amo con el amor que no exagera porque no lo necesita: con el amor que se demuestra, que se cultiva, que regresa. Gracias por existir y por elegirme; gracias por darme un lugar en tu historia. Prometo seguir construyendo contigo un hogar donde siempre haya sitio para la risa, para la música y para la esperanza. Y cuando la vida se ponga seria, prometo ponernos la flor en el pelo como Lilo, sacar a bailar a Stitch y recordar que no estamos solos: ʻohana significa familia, y familia significa que nadie se queda atrás ni se olvida. Contigo, nunca.</p>
+          </div>
+        </article>
+
+        <!-- Galería (mín. 4 fotos) -->
+        <article class="card gallery reveal">
+          <h3>📸 Galería de momentos</h3>
+          <div class="gallery-grid">
+            <img src="foto1.jpg" alt="Nosotros 1" />
+            <img src="foto2.jpg" alt="Nosotros 2" />
+            <img src="foto3.jpg" alt="Nosotros 3" />
+            <img src="foto4.jpg" alt="Nosotros 4" />
+            <!-- Agrega más si quieres -->
+          </div>
+        </article>
+
+        <!-- Videos (3) -->
+        <article class="card videos reveal">
+          <h3>🎬 Nuestros videos</h3>
+          <div class="wrap">
+            <video controls src="video1.mp4"></video>
+            <video controls src="video2.mp4"></video>
+            <video controls src="video3.mp4"></video>
+          </div>
+        </article>
+
+        <!-- Lilo & Stitch + datos lindos -->
+        <article class="card stitch reveal">
+          <div>
+            <h3>🌺 Lilo & Stitch</h3>
+            <p>Porque son tus favoritos, aquí les guardoun espacio especial. Este rincón recuerda que ʻohana significa familia: nadie se queda atrás ni se olvida.</p>
+            <div class="badge">💖 Color favorito: <strong style="color:var(--fucsia)">Fucsia</strong></div>
+          </div>
+          <div class="big-emoji">🩷💫</div>
+          <div class="big-emoji">🧸🏝️</div>
+        </article>
+      </section>
+    </div>
+
+    <footer>
+      Hecho con <span aria-label="amor">💗</span> y paciencia — Para ti.
+    </footer>
+  </main>
+
+  <script>
+    // ====== Password Logic ======
+    const pass = document.getElementById('pass');
+    const enterBtn = document.getElementById('enterBtn');
+    const loginBox = document.getElementById('loginBox');
+    const loginScreen = document.getElementById('loginScreen');
+    const app = document.getElementById('app');
+
+    function unlock(){
+      if(pass.value === '2906'){
+        loginScreen.style.display = 'none';
+        app.classList.add('show');
+        window.scrollTo({top:0, behavior:'smooth'});
+      } else {
+        loginBox.classList.remove('wrong');
+        void loginBox.offsetWidth; // reflow para reiniciar animación
+        loginBox.classList.add('wrong');
+      }
+    }
+    enterBtn.addEventListener('click', unlock);
+    pass.addEventListener('keydown', (e)=>{ if(e.key==='Enter') unlock() });
+
+    // ====== Play/Pause global ======
+    const playAll = document.getElementById('playAll');
+    const pauseAll = document.getElementById('pauseAll');
+    function allAudios(){ return Array.from(document.querySelectorAll('audio')); }
+    playAll.addEventListener('click', ()=>{ allAudios().forEach(a=>{ try{ a.play(); }catch{} }) });
+    pauseAll.addEventListener('click', ()=>{ allAudios().forEach(a=> a.pause()) });
+
+    // ====== Fondo de corazones dinámicos ======
+    const bg = document.getElementById('bgHearts');
+    const HEARTS = 42; // cantidad
+    const GLYPHS = ['❤',,'💗','💖','💘'];
+    function spawn(){
+      const el = document.createElement('span');
+      el.className = 'heart';
+      el.textContent = GLYPHS[Math.floor(Math.random()*GLYPHS.length)];
+      const left = Math.random()*100; // vw
+      const dur = 8 + Math.random()*10; // s
+      const delay = Math.random()*-12; // s
+      const scale = Math.random();
+      if(scale<.25) el.classList.add('tiny');
+      if(scale>.75) el.classList.add('big');
+      el.style.left = left + 'vw';
+      el.style.animationDuration = dur + 's';
+      el.style.animationDelay = delay + 's';
+      bg.appendChild(el);
+      setTimeout(()=> el.remove(), dur*1000+1000);
+    }
+    for(let i=0;i<HEARTS;i++) spawn();
+    setInterval(spawn, 600);
+
+    // ====== Aparición al hacer scroll ======
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) e.target.classList.add('show');
+      })
+    }, { threshold:.12 });
+    document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+  </script>
+</body>
+</html>
